@@ -10,10 +10,15 @@ void levels(const binary_tree_t *tree, void (*func)(int), int level);
 */
 void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
 {
-	int h = height(tree);
+	int h;
 	int i;
 
-	for (i = 1; i <= h; i++)
+	if (!tree || !func)
+		return;
+
+	h = height(tree);
+
+	for (i = 0; i < h; i++)
 		levels(tree, func, i);
 }
 /**
@@ -27,13 +32,13 @@ void levels(const binary_tree_t *tree, void (*func)(int), int level)
 {
 	if (tree == NULL)
 		return;
-	if (level == 1)
-		func(tree->n);
-	else if (level > 1)
+	if (level == 0)
 	{
-		levels(tree->left, func, level - 1);
-		levels(tree->right, func, level - 1);
+		func(tree->n);
+		return;
 	}
+	levels(tree->left, func, level - 1);
+	levels(tree->right, func, level - 1);
 }
 /**
  * height - a function that gets the height of a binary tree
@@ -42,11 +47,14 @@ void levels(const binary_tree_t *tree, void (*func)(int), int level)
 */
 int height(const binary_tree_t *tree)
 {
-	int lef = height(tree->left);
-	int rite = height(tree->right);
+	int lef;
+	int rite;
 
 	if (tree == NULL)
 	return (0);
+	lef = height(tree->left);
+	rite = height(tree->right);
+
 
 	if (lef > rite)
 		return (lef + 1);
